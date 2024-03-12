@@ -1,6 +1,6 @@
 import { PeopleResponse } from './../../shared/models/people';
 import { Component, OnInit } from '@angular/core';
-import { PoDynamicViewField } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoDynamicViewField } from '@po-ui/ng-components';
 import { PeopleService } from '../../core/service/people/people.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,6 +12,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PeopleDetailComponent implements OnInit {
 
   person!:PeopleResponse;
+
+  public readonly breadcrumb: PoBreadcrumb = {
+    items: [
+      { label: 'Home', link: '/' },
+      { label: 'Pessoas', link: '/people' },
+      { label: 'Detalhe' }
+    ]
+  };
 
 
   constructor(private peopleService: PeopleService, private route: ActivatedRoute, private router: Router) { }
@@ -34,7 +42,7 @@ export class PeopleDetailComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate(['people/detail', this.person.id])
+    this.router.navigate(['people/edit', this.person.id])
   }
 
 

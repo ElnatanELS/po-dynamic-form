@@ -30,4 +30,13 @@ export class PeopleService {
       `${this.apiService}/${id}`,
     );
   }
+
+
+  editPerson(person: PeopleResponse):Observable<PeopleResponse>{
+    return this.http.put<PeopleResponse>(`${this.apiService}/${person.id}`, person)
+  }
+
+  createPerson(person: PeopleResponse):Observable<PeopleResponse>{
+    return this.http.post<PeopleResponse>(this.apiService, person)
+  }
 }

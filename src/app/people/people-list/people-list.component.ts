@@ -30,7 +30,7 @@ export class PeopleListComponent implements OnInit {
 
   readonly actions: Array<PoPageAction> = [
     // actions of table here
-    { label: 'Novo', disabled: true },
+    { label: 'Novo',  action: this.navigateNew.bind(this)},
   ];
 
   readonly columns: Array<PoTableColumn> = [
@@ -71,7 +71,7 @@ export class PeopleListComponent implements OnInit {
     {
       label: 'Visualizar', action: this.navigateDetail.bind(this),
     },
-    { label: 'Editar' },
+    { label: 'Editar', action: this.navigateEdit.bind(this) },
     { label: 'Excluir', type: 'danger' },
   ];
 
@@ -119,5 +119,13 @@ export class PeopleListComponent implements OnInit {
   navigateDetail(item:PeopleResponse){
 
      this.router.navigate(['people/detail', item.id])
+  }
+  navigateEdit(item:PeopleResponse){
+
+     this.router.navigate(['people/edit', item.id])
+  }
+  navigateNew(item:PeopleResponse){
+
+     this.router.navigate(['people/new'])
   }
 }
