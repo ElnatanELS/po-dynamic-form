@@ -10,12 +10,16 @@ import { RouterModule } from '@angular/router';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { HomeComponent } from './home/home.component';
 import { PeopleListComponent } from './people/people-list/people-list.component';
+import { PeopleEditComponent } from './people/people-edit/people-edit.component';
+import { PeopleDetailComponent } from './people/people-detail/people-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    PeopleListComponent
+    PeopleListComponent,
+    PeopleEditComponent,
+    PeopleDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import {
   PoTableAction,
   PoTableColumn,
 } from '@po-ui/ng-components';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-people-list',
@@ -68,7 +69,7 @@ export class PeopleListComponent implements OnInit {
 
   actionsTable: Array<PoTableAction> = [
     {
-      label: 'Visualizar',
+      label: 'Visualizar', action: this.navigateDetail.bind(this),
     },
     { label: 'Editar' },
     { label: 'Excluir', type: 'danger' },
@@ -86,7 +87,7 @@ export class PeopleListComponent implements OnInit {
   showMoreDisabled: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private peopleService: PeopleService) {}
+  constructor(private peopleService: PeopleService, private router: Router) {}
 
   ngOnInit() {
     this.page = 1;
@@ -113,5 +114,10 @@ export class PeopleListComponent implements OnInit {
   showMore() {
     this.page += 1;
     this.getPeoples(this.page, this.pageSize)
+  }
+
+  navigateDetail(item:PeopleResponse){
+
+     this.router.navigate(['people/detail', item.id])
   }
 }

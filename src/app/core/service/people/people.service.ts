@@ -22,4 +22,12 @@ export class PeopleService {
       this.apiService, {params}
     );
   }
+  getPerson(
+    id: string,
+  ): Observable<PeopleResponse> {
+
+    return this.http.get<PeopleResponse>(
+      `${this.apiService}/${id}`,
+    );
+  }
 }
