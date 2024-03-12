@@ -1,0 +1,29 @@
+<po-page-list #poPageList p-title="Lista de Pessoas" [p-actions]="actions" [p-breadcrumb]="breadcrumb" [p-filter]="filterSettings">
+
+  <po-table
+    [p-columns]="columns"
+    [p-actions]="actionsTable"
+    [p-items]="items"
+    [p-height]="400"
+    [p-sort]="true"
+    [p-striped]="true"
+
+    >
+  </po-table>
+
+</po-page-list>
+
+<po-modal #advancedFilterModal p-title="Buscar avançada" [p-primary-action]="advancedFilterPrimaryAction">
+  <!-- <form #f="ngForm">
+    <po-multiselect
+      name="jobDescription"
+      [(ngModel)]="jobDescription"
+      p-label="Job description"
+      [p-options]="jobDescriptionOptions"
+    >
+    </po-multiselect>
+
+    <po-checkbox-group name="status" [(ngModel)]="status" p-label="Status" [p-options]="statusOptions">
+    </po-checkbox-group>
+  </form> -->
+</po-modal>
