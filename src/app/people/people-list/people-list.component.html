@@ -1,5 +1,10 @@
-<po-page-list #poPageList p-title="Lista de Pessoas" [p-actions]="actions" [p-breadcrumb]="breadcrumb" [p-filter]="filterSettings">
-
+<po-page-list
+  #poPageList
+  p-title="Lista de Pessoas"
+  [p-actions]="actions"
+  [p-breadcrumb]="breadcrumb"
+  [p-filter]="filterSettings"
+>
   <po-table
     [p-columns]="columns"
     [p-actions]="actionsTable"
@@ -7,13 +12,18 @@
     [p-height]="400"
     [p-sort]="true"
     [p-striped]="true"
-
-    >
+    [p-loading-show-more]="isLoading"
+    [p-show-more-disabled]="showMoreDisabled"
+    (p-show-more)="showMore($event)"
+  >
   </po-table>
-
 </po-page-list>
 
-<po-modal #advancedFilterModal p-title="Buscar avançada" [p-primary-action]="advancedFilterPrimaryAction">
+<po-modal
+  #advancedFilterModal
+  p-title="Buscar avançada"
+  [p-primary-action]="advancedFilterPrimaryAction"
+>
   <!-- <form #f="ngForm">
     <po-multiselect
       name="jobDescription"

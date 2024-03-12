@@ -1,30 +1,39 @@
+import { PeopleResponse } from './../../shared/models/people';
+import { PeopleService } from './../../core/service/people/people.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { PoBreadcrumb, PoModalAction, PoModalComponent, PoPageAction, PoPageFilter, PoPageListComponent, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
+import {
+  PoBreadcrumb,
+  PoModalAction,
+  PoModalComponent,
+  PoPageAction,
+  PoPageFilter,
+  PoPageListComponent,
+  PoTableAction,
+  PoTableColumn,
+} from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-people-list',
   templateUrl: './people-list.component.html',
-  styleUrls: ['./people-list.component.css']
+  styleUrls: ['./people-list.component.css'],
 })
 export class PeopleListComponent implements OnInit {
-  @ViewChild('advancedFilterModal', { static: true }) advancedFilterModal!: PoModalComponent;
+  @ViewChild('advancedFilterModal', { static: true })
+  advancedFilterModal!: PoModalComponent;
   @ViewChild('poPageList', { static: true }) poPageList!: PoPageListComponent;
 
   public readonly breadcrumb: PoBreadcrumb = {
-    items: [
-      { label: 'Home', link: '/' },
-      { label: 'Pessoas' },
-    ]
+    items: [{ label: 'Home', link: '/' }, { label: 'Pessoas' }],
   };
 
   readonly actions: Array<PoPageAction> = [
     // actions of table here
-    { label: 'Novo', disabled: true }
+    { label: 'Novo', disabled: true },
   ];
 
   readonly columns: Array<PoTableColumn> = [
-    { property: 'id',  },
+    { property: 'id' },
     { property: 'name', label: 'Nome' },
     {
       property: 'genre',
@@ -52,52 +61,57 @@ export class PeopleListComponent implements OnInit {
     action: () => {
       this.poPageList.clearInputSearch();
       this.advancedFilterModal.close();
-      // const filters = [...this.jobDescription, ...this.status];
-      // this.filterAction(filters);
+
     },
-    label: 'Buscar'
+    label: 'Buscar',
   };
 
   actionsTable: Array<PoTableAction> = [
     {
-
       label: 'Visualizar',
-
     },
-    {  label: 'Editar' },
-    { label: 'Excluir', type: 'danger'  }
+    { label: 'Editar' },
+    { label: 'Excluir', type: 'danger' },
   ];
 
   public readonly filterSettings: PoPageFilter = {
-    action: this.filterAction.bind(this),
+
     advancedAction: this.advancedFilterActionModal.bind(this),
-    placeholder: 'Search'
+    placeholder: 'Buscar',
   };
 
-  items: Array<any> = [];
+  items: Array<PeopleResponse> = [];
+  page!: number ;
+  pageSize!: number ;
+  showMoreDisabled: boolean = false;
+  isLoading: boolean = false;
 
-  constructor() { }
+  constructor(private peopleService: PeopleService) {}
 
   ngOnInit() {
-    this.items = [
-      { name: 'John Doe', age: 33, email: 'johndoe@example.com' }
-    ];
-   }
+    this.page = 1;
+    this.pageSize = 10;
+    this.getPeoples(this.page, this.pageSize);
+  }
 
-   advancedFilterActionModal() {
+  advancedFilterActionModal() {
     this.advancedFilterModal.open();
   }
 
-
-  filter() {
-    // const filters = this.disclaimers.map(disclaimer => disclaimer.value);
-    // filters.length ? this.hiringProcessesFilter(filters) : this.resetFilterHiringProcess();
+  getPeoples(page: number, pageSize: number) {
+    this.isLoading = true
+    this.peopleService.getAllPeople(page, pageSize).subscribe((res) => {
+      this.items = [...this.items,...res.items];
+      this.isLoading = false;
+      this.showMoreDisabled = !res.hasNext;
+    });
   }
 
-  filterAction(labelFilter: string | Array<string>) {
-    const filter = typeof labelFilter === 'string' ? [labelFilter] : [...labelFilter];
-    // this.populateDisclaimers(filter);
-    this.filter();
-  }
 
+
+
+  showMore(sort: any) {
+    this.page += 1;
+    this.getPeoples(this.page, this.pageSize)
+  }
 }

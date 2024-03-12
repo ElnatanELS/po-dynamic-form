@@ -1,3 +1,4 @@
+import { PeopleService } from './core/service/people/people.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -24,7 +25,7 @@ import { PeopleListComponent } from './people/people-list/people-list.component'
     RouterModule.forRoot([]),
     PoTemplatesModule
   ],
-  providers: [],
+  providers: [PeopleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
