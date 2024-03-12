@@ -110,7 +110,7 @@ export class PeopleListComponent implements OnInit {
 
 
 
-  showMore(sort: any) {
+  showMore() {
     this.page += 1;
     this.getPeoples(this.page, this.pageSize)
   }
