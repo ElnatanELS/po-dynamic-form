@@ -1,5 +1,4 @@
-import { PeopleResponse } from './../../shared/models/people';
-import { PeopleService } from './../../core/service/people/people.service';
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {
@@ -13,6 +12,8 @@ import {
   PoTableColumn,
 } from '@po-ui/ng-components';
 import { Router } from '@angular/router';
+import { PeopleService } from '../people.service';
+import { PeopleModel } from '../people.model';
 
 @Component({
   selector: 'app-people-list',
@@ -81,50 +82,50 @@ export class PeopleListComponent implements OnInit {
     placeholder: 'Buscar',
   };
 
-  items: Array<PeopleResponse> = [];
-  page!: number ;
+  items: Array<PeopleModel> = [];
+  page: number = 0;
   pageSize!: number ;
   showMoreDisabled: boolean = false;
   isLoading: boolean = false;
+  hasNext: boolean = false;
 
   constructor(private peopleService: PeopleService, private router: Router) {}
 
   ngOnInit() {
-    this.page = 1;
     this.pageSize = 10;
-    this.getPeoples(this.page, this.pageSize);
+    this.loadData();
   }
 
   advancedFilterActionModal() {
     this.advancedFilterModal.open();
   }
 
-  getPeoples(page: number, pageSize: number) {
-    this.isLoading = true
-    this.peopleService.getAllPeople(page, pageSize).subscribe((res) => {
-      this.items = [...this.items,...res.items];
-      this.isLoading = false;
-      this.showMoreDisabled = !res.hasNext;
+  private loadData(params: { page?: number; search?: string } = {}) {
+    const defaultParams: any = { page: 1, pageSize: 10 };
+    const fullParams: any = { ...defaultParams, ...params };
+
+    this.peopleService.getResources(fullParams).subscribe((response) => {
+      this.items = fullParams.page === 1 ? response.items : [...this.items, ...response.items];
+      this.page = fullParams.page;
+      this.hasNext = response.hasNext;
     });
   }
 
 
 
-
   showMore() {
-    this.page += 1;
-    this.getPeoples(this.page, this.pageSize)
+    this.loadData({ page: ++this.page});
   }
 
-  navigateDetail(item:PeopleResponse){
+  navigateDetail(item:PeopleModel){
 
      this.router.navigate(['people/detail', item.id])
   }
-  navigateEdit(item:PeopleResponse){
+  navigateEdit(item:PeopleModel){
 
      this.router.navigate(['people/edit', item.id])
   }
-  navigateNew(item:PeopleResponse){
+  navigateNew(item:PeopleModel){
 
      this.router.navigate(['people/new'])
   }

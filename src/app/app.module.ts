@@ -1,4 +1,3 @@
-import { PeopleService } from './core/service/people/people.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -12,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { PeopleListComponent } from './people/people-list/people-list.component';
 import { PeopleEditComponent } from './people/people-edit/people-edit.component';
 import { PeopleDetailComponent } from './people/people-detail/people-detail.component';
+import { PeopleService } from './people/people.service';
 
 @NgModule({
   declarations: [

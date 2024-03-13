@@ -1,8 +1,8 @@
-import { PeopleResponse } from './../../shared/models/people';
 import { Component, OnInit } from '@angular/core';
 import { PoBreadcrumb, PoDynamicViewField } from '@po-ui/ng-components';
-import { PeopleService } from '../../core/service/people/people.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PeopleModel } from '../people.model';
+import { PeopleService } from '../people.service';
 
 @Component({
   selector: 'app-people-detail',
@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PeopleDetailComponent implements OnInit {
 
-  person!:PeopleResponse;
+  person!:PeopleModel;
 
   public readonly breadcrumb: PoBreadcrumb = {
     items: [
@@ -32,7 +32,7 @@ export class PeopleDetailComponent implements OnInit {
    }
 
   getPerson(id:string){
-    this.peopleService.getPerson(id).subscribe(
+    this.peopleService.getResource(id).subscribe(
       res => this.person =res
     )
   }

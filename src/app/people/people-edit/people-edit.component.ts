@@ -1,4 +1,3 @@
-import { PeopleResponse } from './../../shared/models/people';
 import { Component, OnInit } from '@angular/core';
 import {
   PoBreadcrumb,
@@ -7,8 +6,9 @@ import {
   PoNotificationService,
 } from '@po-ui/ng-components';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PeopleService } from '../../core/service/people/people.service';
 import { NgForm } from '@angular/forms';
+import { PeopleModel } from '../people.model';
+import { PeopleService } from '../people.service';
 
 @Component({
   selector: 'app-people-edit',
@@ -16,7 +16,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./people-edit.component.css'],
 })
 export class PeopleEditComponent implements OnInit {
-  person!: PeopleResponse;
+  person!: PeopleModel;
   dynamicForm!: NgForm;
 
   public readonly breadcrumb: PoBreadcrumb = {
@@ -60,6 +60,8 @@ export class PeopleEditComponent implements OnInit {
 
   title!: string;
 
+  isUpdate:boolean = false
+
   constructor(
     private peopleService: PeopleService,
     private route: ActivatedRoute,
@@ -71,6 +73,7 @@ export class PeopleEditComponent implements OnInit {
     const { id } = this.route.snapshot.params;
     if (id) {
       this.getPerson(id);
+      this.isUpdate = true;
 
       this.title = 'Editar Pessoa';
     } else {
@@ -81,7 +84,7 @@ export class PeopleEditComponent implements OnInit {
   }
 
   getPerson(id: string) {
-    this.peopleService.getPerson(id).subscribe((res) => (this.person = res));
+    this.peopleService.getResource(id).subscribe((res) => (this.person = res));
   }
 
   getForm(form: NgForm) {
@@ -98,26 +101,34 @@ export class PeopleEditComponent implements OnInit {
   }
 
   save() {
-    this.person
-      ? this.editPerson()
-      : this.createPerson();
+    this.executeSave(false);
   }
 
   saveNew() {
-    this.save()
-    this.router.navigate(['people/new']);
+    this.executeSave(true);
   }
 
-  editPerson(){
-    this.peopleService.editPerson(this.dynamicForm.value).subscribe(() => {
-      this.poNotification.success('Pessoa Editada com sucesso!');
-      this.cancel()
-    })
+  private executeSave(saveNew: boolean) {
+    if (this.isUpdate) {
+      this.peopleService.updateResource(this.person.id, this.person).subscribe(() => {
+        this.poNotification.success('Pessoa Editada com sucesso!');
+        this.afterSave(saveNew);
+      });
+    } else {
+      this.peopleService.createResource(this.person).subscribe(() => {
+        this.poNotification.success('Pessoa incluida com sucesso!');
+        this.afterSave(saveNew);
+      });
+    }
   }
-  createPerson(){
-    this.peopleService.createPerson(this.dynamicForm.value).subscribe(() => {
-      this.poNotification.success('Pessoa incluida com sucesso!');
-      this.cancel()
-    })
+
+  private afterSave(saveNew: boolean) {
+    if (saveNew) {
+      this.router.navigate(['people', 'new']);
+    } else {
+      this.router.navigate(['people']);
+    }
   }
+
+
 }

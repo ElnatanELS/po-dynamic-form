@@ -1,4 +1,4 @@
-export interface PeopleResponse {
+export interface PeopleModel {
   id: string
   name: string
   birthdate: string
