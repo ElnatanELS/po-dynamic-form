@@ -1,0 +1,15 @@
+<po-page-list p-title="Heróis" [p-actions]="actions">
+
+  <po-table
+  [p-columns]="columns"
+  [p-actions]="actionsTable"
+  [p-items]="items"
+  [p-sort]="true"
+  [p-striped]="true"
+  [p-loading-show-more]="isLoading"
+  [p-show-more-disabled]="showMoreDisabled"
+  (p-show-more)="showMore()"
+    >
+  </po-table>
+
+</po-page-list>

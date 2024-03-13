@@ -11,6 +11,7 @@ const routes: Routes = [
   {path: 'people/detail/:id', component:PeopleDetailComponent},
   {path: 'people/edit/:id', component:PeopleEditComponent},
   {path: 'people/new', component:PeopleEditComponent},
+  { path: 'heroe', loadChildren: () => import('./heroe/heroe.module').then(m => m.HeroeModule) },
   {path: '**', pathMatch:'full', redirectTo:'/home'}
 ];
 

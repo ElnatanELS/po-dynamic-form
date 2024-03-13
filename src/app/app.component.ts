@@ -10,8 +10,9 @@ import { PoMenuItem } from '@po-ui/ng-components';
 export class AppComponent {
 
   readonly menus: Array<PoMenuItem> = [
-    { label: 'Home',link:'/home' },
-    { label: 'Pessoas',link:'/people' },
+    { label: 'Home', icon:'po-icon-home', link:'/home' },
+    { label: 'Pessoas',icon:'po-icon-user', link:'/people' },
+    { label: 'Heróis',icon:'po-icon-target', link:'/heroe' },
   ];
 
 }

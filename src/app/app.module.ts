@@ -12,6 +12,7 @@ import { PeopleListComponent } from './people/people-list/people-list.component'
 import { PeopleEditComponent } from './people/people-edit/people-edit.component';
 import { PeopleDetailComponent } from './people/people-detail/people-detail.component';
 import { PeopleService } from './people/people.service';
+import { HeroeModule } from './heroe/heroe.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { PeopleService } from './people/people.service';
     PoModule,
     HttpClientModule,
     RouterModule.forRoot([]),
-    PoTemplatesModule
+    PoTemplatesModule,
   ],
   providers: [PeopleService],
   bootstrap: [AppComponent]
